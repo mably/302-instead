@@ -1,16 +1,23 @@
 302-instead
 ===========
 
-yourls plugin to send a 302 (temporary) redirect instead of 301 (permanent) for sites where shortlinks may change
+YOURLS plugin to send a 302 (temporary) redirect instead of 301 (permanent) for sites where shortlinks may change. This is a fork of the original 302-instead plugin by BrettR, hosted on GitHub at the following URL:
 
-This plugin applies across an entire yourls installation - cannot currently be customised per-link. Note that it will only work reliably on *new* links, since old links will have already been cached in browsers due to the use of 301 headers.
+https://github.com/EpicPilgrim/302-instead
+
+The plugin adds a menu option to allow you to select the mode you want to use:
+- 302 redirects for every URL (some clients may have old 301 redirects cached, you can't do much about that)
+- 301 redirects for every URL (this is the default YOURLS behaviour)
+- 302 redirects only for URLs that are not short URLs for the current YOURLS installation
 
 Requirements
 
-yourls 1.5 or 1.5.1
+YOURLS 1.5+
 
 Installation
 
-    Create a user/plugins/302-instead directory in yourls
+    Create a user/plugins/302-instead directory in YOURLS
     Place the plugin.php file in above directory
-    Activate plugin in yourls
+    Activate plugin in YOURLS
+
+You can also clone the git repository into your plugins directory. This will allow you to update the plugin more easily.
