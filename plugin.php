@@ -11,7 +11,7 @@
 
     if( !defined( 'YOURLS_ABSPATH' ) ) die();
 
-    yourls_add_action('pre_redirect', 'temp_instead_function');
+    yourls_add_filter('redirect_code', 'temp_instead_function');
     yourls_add_action( 'plugins_loaded', 'temp_instead_admin_page_add' );
 
     // This function will check the URL and the HTTP status code of the passed
@@ -20,9 +20,7 @@
     // redirect. Useful when you want to change the short URLs that end users
     // might be using but you can't change.
     
-    function temp_instead_function($args) {
-        $url   = $args[0];
-        $code  = $args[1];
+    function temp_instead_function($code, $url) {
         $match = strpos($url, yourls_site_url(false));
         $mode  = intval(yourls_get_option( 'temp_instead_mode', 1 ));
         
@@ -30,15 +28,17 @@
         // and if it doesn't we'll return a 302 redirect if it isn't getting
         // one already.
         if ( $code != 302 && ($mode == 1 || ($match === false && $mode == 3))) {
-            yourls_redirect($url, 302);
+            return 302;
         }
 
         // We check here if the url contains the YOURLS installation address,
         // and if it does we'll return a 301 redirect if it isn't getting
         // one already.
         if ( $code != 301 && ($mode == 2 || ($match !== false && $mode == 3))) {
-            yourls_redirect($url, 301);
+            return 301;
         }
+
+        return $code;
     }
     
     // Register our plugin admin page
